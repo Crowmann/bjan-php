@@ -15,7 +15,7 @@ $decodedDataArray = json_decode($jsondata);
 // Get info from rest
 
 // Get news
-$rss = new rss_php();
+
 
 // Get news
 
