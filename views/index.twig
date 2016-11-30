@@ -6,16 +6,19 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {#<link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">#}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/custom.css">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Bjan - Toilet</title>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -41,7 +44,7 @@
             <div class="col-xs-12">
                 <h1>Toilet status</h1>
             </div>
-            <div class="col-xs-6">Toiler nr. </div>
+            <div class="col-xs-6">Toiler nr.</div>
             <div class="col-xs-6">STATUS</div>
 
             {% if(ToiletArray) %}
@@ -52,28 +55,51 @@
                     <div class="col-xs-6">{{ arr.id }}</div>
                     <div class="col-xs-6">
 
-                    {% if(arr.state) %}
-                        <p class="btn-danger">Optaget!</p>
+                        {% if(arr.state) %}
+                            <p class="btn-danger">Optaget!</p>
 
-                    {% else %}
-                        <p class="btn-success">Ledig!</p>
+                        {% else %}
+                            <p class="btn-success">Ledig!</p>
 
-                    {% endif %}
+                        {% endif %}
                     </div>
                 {% endfor %}
             {% endif %}
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <h2>Nyheder</h2>
+            <div style="">
+                {% if(NewsArray) %}
+                    {% if(NewsArray.status == 'ok') %}
+
+                        {% for nws in NewsArray.items %}
+                            <h3><a href='{{ nws.link }}' style="color: black">
+                                    {{ nws.title }}
+                                </a></h3>
+                            {{ nws.pubDate }}
+                            <hr/>
+
+                        {% endfor %}
+                    {% else %}
+                        Kunne ikke hente nyhedder
+                    {% endif %}
+                {% else %}
+                    Kunne ikke hente nyhedder
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
+
+
+{#
 <footer id="About" class="navbar navbar-fixed-bottom">
-    <div class="container">
+    <div class="container" ">
         <p class="text-muted text-center">Not copyrighted, just... who would even steal this...</p>
     </div>
 </footer>
+#}
 
 {#
 

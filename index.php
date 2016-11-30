@@ -15,8 +15,15 @@ $decodedDataArray = json_decode($jsondata);
 // Get info from rest
 
 // Get news
+$url = "https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Ffeeds.tv2.dk%2Fnyhederne_seneste%2Frss&api_key=p1whcyb32elxey6pebengitravjmva5ik0fpaxqo&order_by=pubDate&order_dir=desc&count=10";
+$jsondata = file_get_contents($url);
 
+$data = json_decode($jsondata, true);
 
+//echo "<pre>";
+//var_dump($data);
+//echo "</pre>";
+//die();
 // Get news
 
 
@@ -24,6 +31,7 @@ echo $twig->render('index.twig',
     array(
         'page' => 'Forside',
         'ToiletArray' => $decodedDataArray,
+        'NewsArray' => $data,
         'toilet1' => true
 
     )
