@@ -8,12 +8,11 @@ $twig = new Twig_Environment($loader, array(
 ));
 $twig->addExtension(new Twig_Extension_Debug());
 
-
-
+//echo "Hello world";
 
 echo $twig->render('Static.twig',
     array(
-        'page' => 'Secondpage'
+        'page' => 'Backpage'
 
     )
 );
