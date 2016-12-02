@@ -27,7 +27,7 @@
             <div class="col-xs-12">
                 <h1>Toilet status</h1>
             </div>
-            <div class="col-xs-6">Toiler nr.</div>
+            <div class="col-xs-6">Toiler</div>
             <div class="col-xs-6">STATUS</div>
 
             {% if(ToiletArray) %}
@@ -35,7 +35,7 @@
 
 
                 {% for arr in ToiletArray %}
-                    <div class="col-xs-6">{{ arr.id }}</div>
+                    <div class="col-xs-6">{{ navne[arr.id] }}</div>
                     <div class="col-xs-6">
 
                         {% if(arr.state) %}
