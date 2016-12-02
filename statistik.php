@@ -12,7 +12,9 @@ $twig->addExtension(new Twig_Extension_Debug());
 
 echo $twig->render('statistik.twig',
     array(
-        'page' => 'Backpage'
+        'page' => 'Backpage',
+        'basename' => basename(__FILE__)
 
     )
 );
+var_dump(basename(__FILE__));
