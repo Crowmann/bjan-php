@@ -17,4 +17,3 @@ echo $twig->render('statistik.twig',
 
     )
 );
-var_dump(basename(__FILE__));
