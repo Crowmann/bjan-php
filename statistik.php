@@ -1,5 +1,6 @@
 <?php
 require_once 'vendor/autoload.php';
+require "navne.php";
 $loader = new Twig_Loader_Filesystem('views');
 $twig = new Twig_Environment($loader, array(
     //'cache' => '/path/to/compilation_cache',
@@ -12,7 +13,8 @@ $twig->addExtension(new Twig_Extension_Debug());
 
 echo $twig->render('statistik.twig',
     array(
-        'page' => 'Backpage'
+        'page' => 'Backpage',
+        "navne"=> json_encode($toiletter)
 
     )
 );

@@ -37,10 +37,8 @@
         <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
 
         <script>
-            const svg = dimple.newSvg("#chartContainer", 600, 400),
-                chart = new dimple.chart(svg),
-                xAxis = chart.addCategoryAxis("x", "dato"),
-                yAxis = chart.addMeasureAxis("y", "antal");
+            //noinspection JSAnnotator
+            const navne = {{ navne | raw }};
 
             function formatData(fra, til, value) {
                 let fraDate = new Date(fra),
@@ -63,7 +61,7 @@
 
 
                     result.push({
-                        dato: fraDate.getDate(),
+                        dato: fraDate,
                         antal
                     });
 
@@ -71,7 +69,22 @@
                 }
 
                 return result;
-            }
+            }/*
+            function gendatearray(fra, til) {
+
+                let fraDate = new Date(fra),
+                    tilDate = new Date(til),
+                    result = [];
+
+                while (fraDate <= tilDate) {
+
+                    result.push(fraDate.getDate() + " / " + (fraDate.getMonth() + 1));
+
+                    fraDate.setDate(fraDate.getDate() + 1);
+                }
+
+                return result;
+            }*/
             document.querySelector("#hent").onclick = () => {
                 const fra = document.querySelector("#fra").value;
                 const til = document.querySelector("#til").value;
@@ -100,7 +113,7 @@
                         let ialt = 0;
 
                         data.forEach(toilet => {
-                            let series = chart.addSeries(toilet.Key, dimple.plot.line);
+                            let series = chart.addSeries(navne[toilet.Key], dimple.plot.line);
                             series.data = formatData(fra, til, toilet.Value);
 
                             series.data.forEach(point => {
