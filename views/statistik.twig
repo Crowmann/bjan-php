@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {#<link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">#}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/custom.css">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Bjan - Toilet</title>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ToiletTid</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="index.php">Home</a></li>
+                <li class="active"><a href="statistik.php">Statistik</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+        <p></p>
+    </div>
+</nav>
+<div class="container top-buffer-60">
+
+    <div class="row">
+        <div class="page-header">
+            <h1>Her kan du selv tjekke de statistikker du har brug for</h1>
+        </div>
+
+
+        <p>fra</p>
+        <input type="date" id="fra">
+        <p>til</p>
+        <input type="date" id="til">
+        <br>
+        <button id="hent">Hent</button>
+
+        <div id="chartContainer"></div>
+        <p id="ialt"></p>
+
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+
+        <script>
+            const svg = dimple.newSvg("#chartContainer", 600, 400),
+                chart = new dimple.chart(svg),
+                xAxis = chart.addCategoryAxis("x", "dato"),
+                yAxis = chart.addMeasureAxis("y", "antal");
+
+            function formatData(fra, til, value) {
+                let fraDate = new Date(fra),
+                    tilDate = new Date(til),
+                    result = [];
+
+                while (fraDate <= tilDate) {
+                    let antal = 0;
+
+                    for (let i = 0; i < value.length; i++) {
+                        let day = value[i];
+
+                        if (day.date == `${fraDate.getMonth() + 1}/${fraDate.getDate()}/${fraDate.getFullYear()}`) {
+                            console.log("same");
+
+                            antal = day.value;
+                            break
+                        }
+                    }
+
+
+                    result.push({
+                        dato: fraDate.getDate(),
+                        antal
+                    });
+
+                    fraDate.setDate(fraDate.getDate() + 1);
+                }
+
+                return result;
+            }
+            document.querySelector("#hent").onclick = () => {
+                const fra = document.querySelector("#fra").value;
+                const til = document.querySelector("#til").value;
+
+                if (fra == "" && til == "") {
+                    alert("Vælg dato");
+                    return;
+                }
+                if (new Date(fra).getTime() >= new Date(til).getTime()) {
+                    alert("Til er før fra");
+                    return;
+                }
+
+                document.querySelector("#chartContainer").innerHTML = "";
+
+                const svg = dimple.newSvg("#chartContainer", 600, 400),
+                    chart = new dimple.chart(svg),
+                    xAxis = chart.addCategoryAxis("x", "dato"),
+                    yAxis = chart.addMeasureAxis("y", "antal");
+
+
+                fetch(`hentStatistik.php?fra=${fra}&til=${til}`)
+                    .then(data => data.json())
+                    .then(data => {
+
+                        let ialt = 0;
+
+                        data.forEach(toilet => {
+                            let series = chart.addSeries(toilet.Key, dimple.plot.line);
+                            series.data = formatData(fra, til, toilet.Value);
+
+                            series.data.forEach(point => {
+                                ialt += point.antal
+                            });
+
+                            series.plot = dimple.plot.line;
+
+
+                        });
+                        document.querySelector("#ialt").innerHTML = ialt + " besøgende i alt";
+
+                        chart.draw(1000);
+
+                    })
+            };
+
+        </script>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
