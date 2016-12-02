@@ -15,6 +15,7 @@ echo $twig->render('statistik.twig',
     array(
         'page' => 'Backpage',
         "navne"=> json_encode($toiletter)
+        'basename' => basename(__FILE__)
 
     )
 );

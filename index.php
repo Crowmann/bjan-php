@@ -32,6 +32,7 @@ $data = json_decode($jsondata, true);
 echo $twig->render('index.twig',
     array(
         'page' => 'Forside',
+        'basename' => basename(__FILE__),
         'ToiletArray' => $decodedDataArray,
         'NewsArray' => $data,
         'toilet1' => true,
