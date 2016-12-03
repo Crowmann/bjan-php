@@ -34,6 +34,10 @@
         <br>
         <button id="hent">Hent</button>
 
+        <script>
+            document.querySelector("#fra").value = "2016-11-01"; document.querySelector("#til").value = "2016-12-01"
+        </script>
+
         <div id="chartContainer"></div>
         <p id="ialt"></p>
 
@@ -65,7 +69,7 @@
 
 
                     result.push({
-                        dato: fraDate,
+                        dato: `${fraDate.getMonth() + 1}/${fraDate.getDate()}/${fraDate.getFullYear()}`,
                         antal
                     });
 
@@ -106,8 +110,9 @@
 
                 const svg = dimple.newSvg("#chartContainer", 600, 400),
                     chart = new dimple.chart(svg),
-                    xAxis = chart.addCategoryAxis("x", "dato"),
+                    xAxis = chart.addTimeAxis("x", "dato", "%m/%d/%Y", "%d/%m"),
                     yAxis = chart.addMeasureAxis("y", "antal");
+
 
 
                 fetch(`hentStatistik.php?fra=${fra}&til=${til}`)
