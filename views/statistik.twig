@@ -40,6 +40,7 @@
 
         <div id="chartContainer"></div>
         <p id="ialt"></p>
+        <div id="labels"></div>
 
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
@@ -107,7 +108,7 @@
                 }
 
                 document.querySelector("#chartContainer").innerHTML = "";
-
+                document.querySelector("#labels").innerHTML = "";
                 const svg = dimple.newSvg("#chartContainer", 600, 400),
                     chart = new dimple.chart(svg),
                     xAxis = chart.addTimeAxis("x", "dato", "%m/%d/%Y", "%d/%m"),
@@ -131,11 +132,21 @@
 
                             series.plot = dimple.plot.line;
 
+                            series.afterDraw= (s, d) =>{
+                                let element = document.createElement("span");
+                                element.classList.add("tag");
+                                element.style.background = d.color.stroke; // .fill
+                                element.innerHTML = navne[toilet.Key];
+                                document.querySelector("#labels").appendChild(
+                                    element
+                                )
+                            };
 
                         });
                         document.querySelector("#ialt").innerHTML = ialt + " besøgende i alt";
 
                         chart.draw(1000);
+
 
                     })
             };
