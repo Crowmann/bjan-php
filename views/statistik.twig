@@ -24,12 +24,12 @@
 
         <h3>Vælg de datoer du vil havde info om</h3>
         <div style="float: left; margin-right: 50px;">
-        <p>Fra</p>
-        <input type="date" id="fra">
+            <p>Fra</p>
+            <input type="date" id="fra">
         </div>
-        <div >
-        <p>Til</p>
-        <input type="date" id="til">
+        <div>
+            <p>Til</p>
+            <input type="date" id="til">
         </div>
         <br>
         <button id="hent">Hent</button>
@@ -75,22 +75,23 @@
                 }
 
                 return result;
-            }/*
-            function gendatearray(fra, til) {
+            }
+            /*
+             function gendatearray(fra, til) {
 
-                let fraDate = new Date(fra),
-                    tilDate = new Date(til),
-                    result = [];
+             let fraDate = new Date(fra),
+             tilDate = new Date(til),
+             result = [];
 
-                while (fraDate <= tilDate) {
+             while (fraDate <= tilDate) {
 
-                    result.push(fraDate.getDate() + " / " + (fraDate.getMonth() + 1));
+             result.push(fraDate.getDate() + " / " + (fraDate.getMonth() + 1));
 
-                    fraDate.setDate(fraDate.getDate() + 1);
-                }
+             fraDate.setDate(fraDate.getDate() + 1);
+             }
 
-                return result;
-            }*/
+             return result;
+             }*/
             document.querySelector("#hent").onclick = () => {
                 const fra = document.querySelector("#fra").value;
                 const til = document.querySelector("#til").value;
@@ -112,7 +113,6 @@
                     yAxis = chart.addMeasureAxis("y", "antal");
 
 
-
                 fetch(`hentStatistik.php?fra=${fra}&til=${til}`)
                     .then(data => data.json())
                     .then(data => {
@@ -129,14 +129,11 @@
 
                             series.plot = dimple.plot.line;
 
-                            series.afterDraw= (s, d) =>{
-                                let element = document.createElement("span");
-                                element.classList.add("tag");
-                                element.style.background = d.color.stroke; // .fill
-                                element.innerHTML = navne[toilet.Key];
-                                document.querySelector("#labels").appendChild(
-                                    element
-                                )
+                            series.afterDraw = (s, d) => {
+                                document.querySelector("#labels").innerHTML += `
+                                <span style="background: ${d.color.stroke}" class="tag">
+                                    ${navne[toilet.Key]}
+                                </span>`;
                             };
 
                         });
