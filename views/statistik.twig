@@ -96,7 +96,7 @@
                 const fra = document.querySelector("#fra").value;
                 const til = document.querySelector("#til").value;
 
-                if (fra == "" && til == "") {
+                if (fra == "" || til == "") {
                     alert("Vælg dato");
                     return;
                 }
